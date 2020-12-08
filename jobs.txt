@@ -1,0 +1,11 @@
+
+The first things done were comment out the section of the dockerfile in the db folder which said to perform
+setup.sql and separate the migrating part and the seeding part of setup.sql into migrate.sql
+and seed.sql respectively. Running these sql files were then placed in the files named
+migrate_db.yaml and seed_bd.yaml respectively to perform them as two separate kubernetes
+jobs.
+The docker file in the db folder was then also modified to copy over these new files
+which were made as it would not automatically have them. After this the docker can be run
+again (docker build -t nyuappsec/assign3-db:v0 db/) along with the migrating job (kubectl apply -f migrate_db.yaml) and the seeding job (kubectl apply -f seed_db.yaml) so as to better migrate
+and seed the database. Thus this helps erase the issue of destroying the MYSQL pod in order
+to perform changes to the database.
