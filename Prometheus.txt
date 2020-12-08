@@ -1,0 +1,37 @@
+
+To get Prometheus running it was first necessary to install the helm package which was done through the following commands:
+curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+sudo apt-get install apt-transport-https --yes
+echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
+(said to use snap instead as it said there was no apt version of it that could 
+be used on this machine)
+sudo snap install helm --classic
+helm repo update
+helm repo add stable https://charts.helm.sh/stable
+
+After this Prometheus could then be installed from the helm package through
+the following command:
+helm install stable/prometheus --generate-name
+
+and see the set-up with the following commands:
+
+kubectl get configmap prometheus-some_id_number-alertmanager -o yaml
+kubectl get configmap prometheus-some_id_number-server -o yaml
+
+as those were the services mentioned in the command kubectl get configmaps
+
+
+to change the prometheus server to target port 8080 instead to get the metrics:
+kubectl edit configmap prometheus-1607455318-server
+was entered and the target localhost was changed to port 8080 instead
+
+these were then written in yaml files for grading through
+kubectl get configmap prometheus-some_id_number-alertmanager -o yaml >> prometheus_alertmanager.yaml
+kubectl get configmap prometheus-some_id_number-server -o yaml >> prometheus_server.yaml
+
+Thus, through these steps Prometheus was added to the kubernetes cluster and the yaml files
+needed to run it were recorded as well in addition to Prometheus being made to work with
+port 8080.
+
