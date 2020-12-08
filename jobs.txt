@@ -1,5 +1,4 @@
 
-
 The first things done were comment out the section of the dockerfile in the db folder which said to perform
 setup.sql and separate the migrating part and the seeding part of setup.sql into migrate.sql
 and seed.sql respectively. Running these sql files were then placed in the files named
