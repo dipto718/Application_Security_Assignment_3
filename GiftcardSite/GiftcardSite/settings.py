@@ -13,6 +13,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import base64
 
+from kubernetes import client, config
+config.load_kube_config()
+reader = client.CoreV1Api()
+secret = reader.read_namespaced_secret("backend-password", "backend-pass")
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -85,7 +90,7 @@ DATABASES = {
         'HOST': os.environ.get('MYSQL_HOST'),
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': os.environ.get('MYSQL_ROOT_PASSWORD'),
+        'PASSWORD': secret,
     }
 }
 
